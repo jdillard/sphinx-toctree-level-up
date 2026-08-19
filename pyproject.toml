@@ -4,12 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx-toctree-level-up"
-description = "Backport of Sphinx toctree :level-up: (sphinx-doc/sphinx#8287)"
+description = "Backport of Sphinx toctree :level-up:"
 authors = [
     {name = "Jared Dillard", email = "jared.dillard@gmail.com"},
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
     "Framework :: Sphinx",
     "Framework :: Sphinx :: Extension",
     "Intended Audience :: Developers",
@@ -37,7 +36,7 @@ test = [
 ]
 
 [project.urls]
-source = "https://github.com/sphinx-doc/sphinx/issues/8287"
+source = "https://github.com/jdillard/sphinx-toctree-level-up"
 
 [tool.setuptools]
 packages = ["sphinx_toctree_level_up"]

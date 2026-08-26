@@ -176,6 +176,62 @@ def test_toctree_level_up_section_nesting(app: SphinxTestApp) -> None:
     assert '\\subsubsection{Override page}' in result
 
 
+@pytest.mark.sphinx('singlehtml', testroot='toctree-level-up')
+def test_toctree_level_up_singlehtml_section_nesting(app: SphinxTestApp) -> None:
+    app.build(force_all=True)
+    result = (app.outdir / 'index.html').read_text(encoding='utf8')
+    intro = result.index('<h2>Intro header')
+    page1 = result.index('<h2>Page 1')
+    later = result.index('<h2>Later sibling')
+    page2 = result.index('<h2>Page 2')
+    assert intro < page1 < later < page2
+    assert '<h3>Page 1' not in result
+    assert '<h3>Page 2' not in result
+
+
+@pytest.mark.sphinx('texinfo', testroot='toctree-level-up')
+def test_toctree_level_up_texinfo_section_nesting(app: SphinxTestApp) -> None:
+    app.build(force_all=True)
+    texinfo_files = list(app.outdir.glob('*.texi'))
+    assert texinfo_files
+    result = texinfo_files[0].read_text(encoding='utf8')
+    intro = result.index('@chapter Intro header')
+    page1 = result.index('@chapter Page 1')
+    later = result.index('@chapter Later sibling')
+    page2 = result.index('@chapter Page 2')
+    assert intro < page1 < later < page2
+    assert '@section Page 1' not in result
+    assert '@section Page 2' not in result
+
+
+@pytest.mark.sphinx('man', testroot='toctree-level-up')
+def test_toctree_level_up_man_section_nesting(app: SphinxTestApp) -> None:
+    app.build(force_all=True)
+    man_files = list(app.outdir.glob('*.[1-9]'))
+    assert man_files
+    result = man_files[0].read_text(encoding='utf8')
+    intro = result.index('.SH INTRO HEADER')
+    page1 = result.index('.SH PAGE 1')
+    later = result.index('.SH LATER SIBLING')
+    page2 = result.index('.SH PAGE 2')
+    assert intro < page1 < later < page2
+    assert '.SS Page 1' not in result
+    assert '.SS Page 2' not in result
+
+
+@pytest.mark.sphinx('latex', testroot='only-level-up')
+@pytest.mark.xfail(
+    strict=True,
+    reason='promoting an inlined toctree currently escapes its only wrapper',
+)
+def test_level_up_only_wrapper_excludes_latex(app: SphinxTestApp) -> None:
+    app.build(force_all=True)
+    tex_files = list(app.outdir.glob('*.tex'))
+    assert tex_files
+    result = tex_files[0].read_text(encoding='utf8')
+    assert 'Child body.' not in result
+
+
 @pytest.mark.sphinx('html', testroot='toctree-level-up')
 def test_setup_native_support_warning(app: SphinxTestApp) -> None:
     from sphinx.directives.other import TocTree as BuiltinTocTree

@@ -1,5 +1,9 @@
 # sphinx-toctree-level-up
 
+[![PyPI version](https://img.shields.io/pypi/v/sphinx-toctree-level-up.svg)](https://pypi.org/project/sphinx-toctree-level-up/)
+![Parallel safe](https://img.shields.io/badge/parallel%20safe-true-brightgreen)
+[![CI](https://github.com/jdillard/sphinx-toctree-level-up/actions/workflows/ci.yml/badge.svg)](https://github.com/jdillard/sphinx-toctree-level-up/actions/workflows/ci.yml)
+
 Standalone Sphinx extension that backports toctree `:level-up:` from [sphinx-doc/sphinx#8287](https://github.com/sphinx-doc/sphinx/issues/8287).
 
 Use the same markup on your current Sphinx; delete the extension after you upgrade to a release that includes the native implementation.

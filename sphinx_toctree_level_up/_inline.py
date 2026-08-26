@@ -26,6 +26,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger('sphinx.util.nodes')
 
 _patched = False
+_INLINED_ONLY_WRAPPER = 'toctree-level-up-inlined'
 
 
 def patch_inline_all_toctrees() -> None:
@@ -109,6 +110,39 @@ def _containing_section(node: Node) -> nodes.section | None:
     return None
 
 
+def _only_ancestors_until(node: Node, ancestor: Node) -> list[addnodes.only]:
+    """Return ``only`` ancestors crossed when moving *node* to *ancestor*."""
+    result: list[addnodes.only] = []
+    parent = node.parent
+    while parent is not None and parent is not ancestor:
+        if isinstance(parent, addnodes.only):
+            result.append(parent)
+        parent = parent.parent
+    return result
+
+
+def _wrap_in_only_nodes(
+    newnodes: list[Element], only_nodes: list[addnodes.only]
+) -> list[Element]:
+    """Recreate escaped ``only`` wrappers around inlined documents."""
+    wrapped = newnodes
+    for original in only_nodes:
+        replacement = addnodes.only(expr=original['expr'])
+        replacement.source = original.source
+        replacement.line = original.line
+        replacement[_INLINED_ONLY_WRAPPER] = True
+        replacement.extend(wrapped)
+        wrapped = [replacement]
+    return wrapped
+
+
+def _is_inlined_document(node: Node) -> bool:
+    """Return whether *node* was inserted by a promoted inlined toctree."""
+    return isinstance(node, addnodes.start_of_file) or (
+        isinstance(node, addnodes.only) and node.get(_INLINED_ONLY_WRAPPER, False)
+    )
+
+
 def replace_toctree_with_inlined(
     toctreenode: addnodes.toctree, newnodes: list[Element]
 ) -> None:
@@ -136,6 +170,12 @@ def replace_toctree_with_inlined(
         target_section = section
         current = section
 
+    escaped_only_nodes: list[addnodes.only] = []
+    if target_section is not None and target_section.parent is not None:
+        escaped_only_nodes = _only_ancestors_until(
+            toctreenode, target_section.parent
+        )
+
     toc_index = parent.index(toctreenode)
     wrapper_parent = parent.parent
     wrapper_index = wrapper_parent.index(parent) if wrapper_parent is not None else 0
@@ -156,11 +196,10 @@ def replace_toctree_with_inlined(
     if target_section is not None and target_section.parent is not None:
         insert_parent = target_section.parent
         idx = insert_parent.index(target_section) + 1
-        while idx < len(insert_parent) and isinstance(
-            insert_parent[idx], addnodes.start_of_file
-        ):
+        while idx < len(insert_parent) and _is_inlined_document(insert_parent[idx]):
             idx += 1
-        for offset, newnode in enumerate(newnodes):
+        moved_nodes = _wrap_in_only_nodes(newnodes, escaped_only_nodes)
+        for offset, newnode in enumerate(moved_nodes):
             insert_parent.insert(idx + offset, newnode)
         return
 

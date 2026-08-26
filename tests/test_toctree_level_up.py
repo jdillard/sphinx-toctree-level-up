@@ -220,16 +220,19 @@ def test_toctree_level_up_man_section_nesting(app: SphinxTestApp) -> None:
 
 
 @pytest.mark.sphinx('latex', testroot='only-level-up')
-@pytest.mark.xfail(
-    strict=True,
-    reason='promoting an inlined toctree currently escapes its only wrapper',
-)
 def test_level_up_only_wrapper_excludes_latex(app: SphinxTestApp) -> None:
     app.build(force_all=True)
     tex_files = list(app.outdir.glob('*.tex'))
     assert tex_files
     result = tex_files[0].read_text(encoding='utf8')
     assert 'Child body.' not in result
+
+
+@pytest.mark.sphinx('singlehtml', testroot='only-level-up')
+def test_level_up_only_wrapper_includes_singlehtml(app: SphinxTestApp) -> None:
+    app.build(force_all=True)
+    result = (app.outdir / 'index.html').read_text(encoding='utf8')
+    assert 'Child body.' in result
 
 
 @pytest.mark.sphinx('html', testroot='toctree-level-up')

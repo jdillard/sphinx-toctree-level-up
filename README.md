@@ -4,6 +4,9 @@ Standalone Sphinx extension that backports toctree `:level-up:` from [sphinx-doc
 
 Use the same markup on your current Sphinx; delete the extension after you upgrade to a release that includes the native implementation.
 
+> [!NOTE]
+> **Status: beta.** This project was largely vibe-coded, so use it with appropriate caution. I use it myself and plan to maintain and support it, but its behavior may still change as it matures.
+
 ## Install
 
 ```bash

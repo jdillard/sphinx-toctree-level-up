@@ -33,7 +33,9 @@ def test_toc_level_up_directive_sets_default(app: SphinxTestApp) -> None:
     doctree = restructuredtext.parse(app, text, 'index')
     assert_node(doctree, [nodes.document, nodes.compound, addnodes.toctree])
     assert_node(doctree[0][0], addnodes.toctree, level_up=1)
-    assert app.env.current_document.get('toc_level_up') == 1
+    current = getattr(app.env, 'current_document', None)
+    document_data = current if current is not None else app.env.temp_data
+    assert document_data.get('toc_level_up') == 1
 
 
 @pytest.mark.sphinx('html', testroot='toctree-level-up')

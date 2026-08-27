@@ -1,0 +1,25 @@
+version: 2
+
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.13"
+  jobs:
+    # Custom HTML so both trees land in the published $READTHEDOCS_OUTPUT/html.
+    # (post_build can run after RTD has already copied artifacts.)
+    build:
+      html:
+        - python -m sphinx -W --keep-going -b singlehtml -d _build/doctrees-with docs $READTHEDOCS_OUTPUT/html
+        - env LEVEL_UP_DEMO=0 python -m sphinx -W --keep-going -b singlehtml -d _build/doctrees-without docs $READTHEDOCS_OUTPUT/html/without-level-up
+        - mv $READTHEDOCS_OUTPUT/html/without-level-up/index-without.html $READTHEDOCS_OUTPUT/html/without-level-up/index.html
+
+python:
+  install:
+    - method: pip
+      path: .
+      extra_requirements:
+        - docs
+
+sphinx:
+  configuration: docs/conf.py
+  fail_on_warning: true

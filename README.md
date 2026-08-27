@@ -3,6 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/sphinx-toctree-level-up.svg)](https://pypi.org/project/sphinx-toctree-level-up/)
 ![Parallel safe](https://img.shields.io/badge/parallel%20safe-true-brightgreen)
 [![CI](https://github.com/jdillard/sphinx-toctree-level-up/actions/workflows/ci.yml/badge.svg)](https://github.com/jdillard/sphinx-toctree-level-up/actions/workflows/ci.yml)
+[![Documentation Status](https://readthedocs.org/projects/sphinx-toctree-level-up/badge/?version=latest)](https://sphinx-toctree-level-up.readthedocs.io/en/latest/)
 
 Standalone Sphinx extension that backports toctree `:level-up:` from [sphinx-doc/sphinx#8287](https://github.com/sphinx-doc/sphinx/issues/8287).
 
@@ -10,6 +11,20 @@ Use the same markup on your current Sphinx; delete the extension after you upgra
 
 > [!NOTE]
 > **Status: beta.** This project was largely vibe-coded, so use it with appropriate caution. I use it myself and plan to maintain and support it, but its behavior may still change as it matures.
+
+## Documentation
+
+The docs are built as **singlehtml** so you can see `:level-up:` change heading structure, not only the sidebar TOC. The same site also publishes a nested copy with no `:level-up:`:
+
+- With `:level-up:`: https://sphinx-toctree-level-up.readthedocs.io/
+- Without: https://sphinx-toctree-level-up.readthedocs.io/en/latest/without-level-up/
+
+```bash
+pip install -e ".[docs]"
+sphinx-build -b singlehtml docs docs/_build/singlehtml
+LEVEL_UP_DEMO=0 sphinx-build -b singlehtml docs docs/_build/singlehtml/without-level-up
+mv docs/_build/singlehtml/without-level-up/index-without.html docs/_build/singlehtml/without-level-up/index.html
+```
 
 ## Install
 

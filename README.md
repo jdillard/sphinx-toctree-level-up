@@ -12,7 +12,7 @@ A [Sphinx](http://sphinx-doc.org/) extension that promotes pages listed in a toc
 
 ## Documentation
 
-The docs are built as **singlehtml** so you can see how `:level-up:` effects the heiarchy.
+The docs are built as **singlehtml** so you can see how `:level-up:` affects the heiarchy.
 
 - https://sphinx-toctree-level-up.readthedocs.io/
 

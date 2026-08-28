@@ -38,9 +38,14 @@ master_doc = root_doc
 # index-without.html, then CI deploys it as index.html.
 
 extensions = [
+    'sphinx.ext.intersphinx',
     'sphinx_toctree_level_up',
     'sphinx_rtd_theme',
 ]
+
+intersphinx_mapping = {
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
 
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 if _level_up_demo:
@@ -50,7 +55,7 @@ else:
 
 html_theme = 'sphinx_rtd_theme'
 html_title = (
-    'sphinx-toctree-level-up (with :level-up:)'
+    'sphinx-toctree-level-up'
     if _level_up_demo
     else 'sphinx-toctree-level-up (without :level-up:)'
 )

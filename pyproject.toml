@@ -33,6 +33,9 @@ dependencies = [
 [project.optional-dependencies]
 docs = [
     "furo>=2025.12.19",
+    # Sphinx 9 singlehtml generates malformed double-fragment links:
+    # https://github.com/sphinx-doc/sphinx/issues/14221
+    "sphinx==8.1.3",
     "sphinx-gitref>=0.4.1",
 ]
 test = [

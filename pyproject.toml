@@ -32,8 +32,8 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
+    "furo>=2025.12.19",
     "sphinx-gitref>=0.4.1",
-    "sphinx-rtd-theme>=2",
 ]
 test = [
     "pytest>=7.0.0",

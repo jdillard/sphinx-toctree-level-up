@@ -41,7 +41,6 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx_toctree_level_up',
     'sphinx_gitref',
-    'sphinx_rtd_theme',
 ]
 
 intersphinx_mapping = {
@@ -64,7 +63,7 @@ if _level_up_demo:
 else:
     exclude_patterns.append('index.rst')
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'furo'
 html_title = (
     'sphinx-toctree-level-up'
     if _level_up_demo

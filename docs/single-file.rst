@@ -1,8 +1,8 @@
 Single-file builders
 ====================
 
-HTML resolves :rst:dir:`toctree` directives in place.
-LaTeX, ``singlehtml``, Texinfo, and man call
+The ``html`` builder resolves :rst:dir:`toctree` directives in place.
+The ``latex``, ``singlehtml``, ``texinfo``, and ``man`` builders call
 :gitref:`inline_all_toctrees() <sphinx_toctree_level_up/_inline.py::inline_all_toctrees>`,
 which pastes
 included documents **where the toctree sits**.

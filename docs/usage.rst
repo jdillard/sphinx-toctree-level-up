@@ -13,14 +13,16 @@ Install from PyPI and enable the extension in **conf.py**:
        'sphinx_toctree_level_up',
    ]
 
-On the :rst:dir:`toctree` directive, the
+On the :rst:dir:`toctree` directive, the new
 :rst:dir:`:level-up: <toctree:level-up>` option takes a non-negative integer
 and represents how many section levels to climb, counted from the section that
 contains the directive.
 ``1`` promotes listed pages to siblings of that section; ``2`` climbs one more level, and so on.
 
 The in-page HTML TOC tree stays where you wrote the directive.
-What changes is the TOC hierarchy (sidebar and section numbering) and the structure in single-file builders (LaTeX, ``singlehtml``, Texinfo, man).
+What changes is the TOC hierarchy (sidebar and section numbering) and the
+structure in single-file builders (``latex``, ``singlehtml``, ``texinfo``, and
+``man``).
 
 Promote listed pages to siblings of the current section:
 

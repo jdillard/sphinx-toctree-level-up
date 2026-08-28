@@ -17,6 +17,8 @@ that contains the :rst:dir:`toctree`.
    This build has no ``:level-up:``. Compare with the
    `same docs with promotion <../index.html>`__.
 
+.. _this-page-is-the-example:
+
 This page is the example
 ------------------------
 
@@ -52,6 +54,5 @@ The TOC hierarchy is:
 Later sibling
 -------------
 
-This section is a sibling of **This page is the example**, not a child of it.
-In this ``singlehtml`` build, the toctree pages should appear as subsections
-of **This page is the example**, at a deeper heading level than this section.
+This section is a sibling of :ref:`this-page-is-the-example`.
+In this ``singlehtml`` build, the toctree pages should appear as subsections of :ref:`this-page-is-the-example`, at a deeper heading level than this section.

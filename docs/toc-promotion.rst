@@ -12,7 +12,8 @@ That walk is a **pending-bubble** over the TOC bullet list:
 * When a toctree has ``level-up > 0``, do not keep it at this level; put it in a pending list with a remaining count.
 * After finishing a section's children, pending items with remaining ``1`` become **siblings** of that section; remaining ``> 1`` bubble further up.
 * If promotion runs out of ancestor sections, it stops at the top and warns (``type='toc'``, ``subtype='level_up'``).
-* ``only`` nodes are not a section level: the wrapper is kept so HTML vs LaTeX filtering still works.
+* ``only`` nodes are not a section level: the wrapper is kept so ``html`` vs
+  ``latex`` filtering still works.
 
 HTML sidebars and numbering then read the promoted ``env.tocs``. The in-page
 :rst:dir:`toctree` stays in the original doctree, which is why paragraph-before

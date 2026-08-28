@@ -30,7 +30,7 @@ It does this by:
      - Unchanged location
    * - Sidebar / ``env.tocs`` / numbering
      - Nodes re-parented after collection
-   * - LaTeX, ``singlehtml``, Texinfo, man
+   * - ``latex``, ``singlehtml``, ``texinfo``, ``man``
      - Included docs inserted after the ancestor section
 
 Parse-time handling

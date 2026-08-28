@@ -1,6 +1,9 @@
 How it works
 ============
 
+.. note:: This section is intended for extension maintainers and Sphinx contributors.
+   It explains both the behavior intended for Sphinx core and the extension-specific integration required by this backport.
+
 Sphinx nests a :rst:dir:`toctree` under whichever section contains it.
 :rst:dir:`:level-up: <toctree:level-up>` promotes those listed pages up the
 tree without moving the visible in-page list.

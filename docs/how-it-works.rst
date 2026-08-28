@@ -64,16 +64,17 @@ Stage 1: teaching the parser the new option
 When Sphinx starts, :gitref:`setup()
 <sphinx_toctree_level_up/__init__.py::setup>` first checks whether the
 installed Sphinx already supports ``:level-up:``. If it does, the backport
-steps aside and asks the user to remove it.
+steps aside and asks the user to remove it. Otherwise, the extension replaces
+the registered ``toctree`` directive with a small :rst:dir:`toctree` subclass
+and registers the new :rst:dir:`toc-level-up` directive.
 
-Otherwise, the extension replaces the registered :rst:dir:`toctree` directive
-with a small subclass and registers :rst:dir:`toc-level-up`. The subclass lets
-Sphinx do its normal parsing, then records the effective value as
-``toctree['level-up']`` on the resulting node. An explicit ``:level-up:``
-wins over the per-document default set by :rst:dir:`toc-level-up`.
+The subclassed :rst:dir:`toctree` lets Sphinx do its normal parsing, then
+records the effective value as ``toctree['level-up']`` on the resulting node.
+An explicit ``:level-up:`` option wins over the per-document default set by
+:rst:dir:`toc-level-up`.
 
-No content moves yet. The node is only carrying an instruction for later
-build stages. This is important because moving source content while it is
+No content moves at this stage, the node is only carrying an instruction for
+later build stages. This is important because moving source content while it is
 being parsed would also move nearby paragraphs and would change where the
 HTML link list is rendered.
 
@@ -87,11 +88,10 @@ Sphinx has followed its normal rule, so **Installation** is still nested below
 **First steps**.
 
 The extension waits until that collector is finished. Its ``doctree-read``
-handler runs at priority 600, after the collector's priority 500, and calls
-:gitref:`promote_env_toc()
-<sphinx_toctree_level_up/_promote.py::promote_env_toc>`. The handler finds the
-marked ``toctree`` in the navigation copy and bubbles it up by the requested
-number of section ancestors.
+handler runs at priority ``600``, after the collector's priority ``500``, and
+calls :gitref:`promote_env_toc() <sphinx_toctree_level_up/_promote.py::promote_env_toc>`.
+The handler finds the marked ``toctree`` in the navigation copy and bubbles it up by the
+requested number of section ancestors.
 
 For the example, the navigation copy changes from:
 
@@ -113,8 +113,8 @@ The original document tree is deliberately untouched. Regular HTML can now
 read the promoted hierarchy for its sidebar while resolving the original
 node in place for the page's visible list.
 
-The detailed bubbling rules, including requests that exceed the available
-ancestors and :rst:dir:`only` handling, are covered in :doc:`toc-promotion`.
+.. note:: The detailed bubbling rules, including requests that exceed the available
+   ancestors and :rst:dir:`only` handling, are covered in :doc:`toc-promotion`.
 
 Stage 3: handling builders that combine documents
 -------------------------------------------------
@@ -126,8 +126,8 @@ it includes. Sphinx calls this process *inlining*.
 
 If the extension changed only ``env.tocs``, a PDF could show **Installation**
 as a sibling in its table of contents while still rendering its heading and
-body inside **First steps**. The navigation and the actual document structure
-would disagree.
+body inside **First steps**, which would make the navigation and the actual
+document structure disagree.
 
 Those builders call ``inline_all_toctrees()`` directly and provide no event
 between inlining and placement that this backport can hook. The extension
@@ -163,6 +163,6 @@ The same small ``level-up`` marker coordinates the build:
 4. Single-file builders move the inlined document content so its real heading
    structure matches the promoted TOC.
 
-That split is the central idea: promotion changes a document's place in the
-documentation hierarchy without pretending that the directive was written
-somewhere else in its source page.
+The central idea behind that split is that promotion changes a document's
+place in the documentation hierarchy without pretending that the directive
+was written somewhere else in its source page.

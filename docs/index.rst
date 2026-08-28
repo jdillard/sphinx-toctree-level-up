@@ -1,13 +1,15 @@
 sphinx-toctree-level-up
 =======================
 
-Standalone Sphinx extension that backports toctree ``:level-up:`` from
+Standalone Sphinx extension that backports the
+:rst:dir:`:level-up: <toctree:level-up>` option for :rst:dir:`toctree` from
 `sphinx-doc/sphinx#8287 <https://github.com/sphinx-doc/sphinx/issues/8287>`_.
 
 A `Sphinx <http://sphinx-doc.org/>`_ extension that promotes pages listed in a
-toctree so they sit higher in the TOC hierarchy than the section that contains
-the directive. It serves as a stop gap for the toctree ```:level-up:``` option,
-until `sphinx-doc/sphinx#8287 <https://github.com/sphinx-doc/sphinx/issues/8287>`_
+:rst:dir:`toctree` so they sit higher in the TOC hierarchy than the section
+that contains the directive. It serves as a stop gap for the
+:rst:dir:`:level-up: <toctree:level-up>` option, until
+`sphinx-doc/sphinx#8287 <https://github.com/sphinx-doc/sphinx/issues/8287>`_
 lands in a release.
 
 This site is built as **single-page HTML** on purpose. Single-file builders
@@ -22,7 +24,8 @@ document structure, not only the sidebar TOC.
 This page is the example
 ------------------------
 
-The toctree below sits under this section and uses ``:level-up: 1``.
+The :rst:dir:`toctree` below sits under this section and uses
+``:level-up: 1``.
 
 Without the extension, the listed pages would nest *under* this section
 (``<h3>`` in ``singlehtml``). With it, they are promoted to **siblings** of

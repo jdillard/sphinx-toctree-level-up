@@ -1,21 +1,26 @@
 Directives
 ==========
 
-Nothing is re-parented at parse time.
-Directives only stamp ``toctree['level-up'] = N`` on the node for later passes.
+.. rst:directive:: toctree
 
-toctree
--------
+   This extension overrides Sphinx's built-in ``toctree`` directive to add
+   the following option. All other options retain their standard behavior.
 
-:gitref:`TocTree <sphinx_toctree_level_up/__init__.py::TocTree>` subclasses
-Sphinx's builtin toctree, adds ``:level-up:`` as a nonnegative int, then after
-``super().run()`` writes that value onto every ``addnodes.toctree`` node.
+   .. rst:directive:option:: level-up
+      :type: nonnegative integer
 
-If the option is omitted, it uses a per-document default from ``.. toc-level-up:: N``. An explicit ``:level-up: 0`` opts that toctree out.
+      Promote the listed pages by this many section levels, counted from the
+      section containing the ``toctree``. A value of ``0`` disables promotion.
+
+      Requesting more levels than there are ancestor sections promotes as far
+      as possible and emits a ``[toc.level_up]`` warning.
 
 .. rst:directive:: toc-level-up
 
-   :gitref:`TocLevelUp <sphinx_toctree_level_up/__init__.py::TocLevelUp>`
-   stores the default on ``env.current_document`` (or ``env.temp_data`` on
-   older Sphinx), similar to ``highlight``.
-   The value applies to later ``toctree`` directives in the same document until another ``toc-level-up`` replaces it.
+   Set the default :rst:dir:`:level-up: <toctree:level-up>` value for later
+   :rst:dir:`toctree` directives in the current document.
+
+   The required argument is a nonnegative integer. The default remains in
+   effect until another ``toc-level-up`` directive replaces it. An explicit
+   :rst:dir:`:level-up: <toctree:level-up>` option takes precedence, including
+   ``:level-up: 0`` to opt out.

@@ -1,13 +1,14 @@
 How it works
 ============
 
-Sphinx nests a ``toctree`` under whichever section contains it.
-``:level-up:`` promotes those listed pages up the tree without moving the visible in-page list.
+Sphinx nests a :rst:dir:`toctree` under whichever section contains it.
+:rst:dir:`:level-up: <toctree:level-up>` promotes those listed pages up the
+tree without moving the visible in-page list.
 
 It does this by:
 
 1. :gitref:`setup() <sphinx_toctree_level_up/__init__.py::setup>` **overrides**
-   the ``toctree`` directive and adds ``toc-level-up``.
+   :rst:dir:`toctree` and adds :rst:dir:`toc-level-up`.
 2. **Hooks** ``doctree-read`` at priority 600, after Sphinx's own TOC
    collector (500).
 3. **Monkeypatches**
@@ -21,10 +22,27 @@ It does this by:
    * - Surface
      - What happens
    * - Parse
-     - Record ``level-up`` on the toctree node
+     - Record :rst:dir:`:level-up: <toctree:level-up>` on the toctree node
    * - HTML in-page list
      - Unchanged location
    * - Sidebar / ``env.tocs`` / numbering
      - Nodes re-parented after collection
    * - LaTeX, ``singlehtml``, Texinfo, man
      - Included docs inserted after the ancestor section
+
+Directive handling
+------------------
+
+Nothing is re-parented at parse time. Directives only stamp
+``toctree['level-up'] = N`` on the node for later passes.
+
+:gitref:`TocTree <sphinx_toctree_level_up/__init__.py::TocTree>` subclasses
+Sphinx's builtin toctree and adds
+:rst:dir:`:level-up: <toctree:level-up>` as a nonnegative integer. After
+``super().run()``, it writes the effective value onto every
+``addnodes.toctree`` node. If the option is omitted, the value comes from the
+current document's :rst:dir:`toc-level-up` default.
+
+:gitref:`TocLevelUp <sphinx_toctree_level_up/__init__.py::TocLevelUp>` stores
+that default on ``env.current_document`` (or ``env.temp_data`` on older
+Sphinx), similar to ``highlight``.

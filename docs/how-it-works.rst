@@ -6,11 +6,13 @@ Sphinx nests a ``toctree`` under whichever section contains it.
 
 It does this by:
 
-1. **Overrides** the ``toctree`` directive and adds ``toc-level-up``.
+1. :gitref:`setup() <sphinx_toctree_level_up/__init__.py::setup>` **overrides**
+   the ``toctree`` directive and adds ``toc-level-up``.
 2. **Hooks** ``doctree-read`` at priority 600, after Sphinx's own TOC
    collector (500).
-3. **Monkeypatches** ``inline_all_toctrees``, which single-file builders call
-   with no event hook.
+3. **Monkeypatches**
+   :gitref:`inline_all_toctrees() <sphinx_toctree_level_up/_inline.py::inline_all_toctrees>`,
+   which single-file builders call with no event hook.
 
 .. list-table::
    :header-rows: 1

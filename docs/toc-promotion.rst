@@ -2,7 +2,8 @@ TOC promotion
 =============
 
 Sphinx's ``TocTreeCollector`` still builds ``env.tocs`` as usual: the toctree is nested under the current section.
-Then a ``doctree-read`` handler runs ``promote_env_toc()``.
+Then a ``doctree-read`` handler runs
+:gitref:`promote_env_toc() <sphinx_toctree_level_up/_promote.py::promote_env_toc>`.
 
 That walk is a **pending-bubble** over the TOC bullet list:
 

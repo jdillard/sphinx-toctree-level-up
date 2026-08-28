@@ -6,7 +6,7 @@ Standalone Sphinx extension that backports toctree ``:level-up:`` from
 
 A `Sphinx <http://sphinx-doc.org/>`_ extension that promotes pages listed in a
 toctree so they sit higher in the TOC hierarchy than the section that contains
-the directive. It serves as a stop gap for the toctree `:level-up:` option,
+the directive. It serves as a stop gap for the toctree ```:level-up:``` option,
 until `sphinx-doc/sphinx#8287 <https://github.com/sphinx-doc/sphinx/issues/8287>`_
 lands in a release.
 
@@ -19,7 +19,7 @@ document structure, not only the sidebar TOC.
    This build uses ``:level-up: 1``. Compare with the
    `same docs without promotion <without-level-up/index.html>`__.
 
-The docs are the example
+This page is the example
 ------------------------
 
 The toctree below sits under this section and uses ``:level-up: 1``.

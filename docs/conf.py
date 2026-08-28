@@ -40,12 +40,23 @@ master_doc = root_doc
 extensions = [
     'sphinx.ext.intersphinx',
     'sphinx_toctree_level_up',
+    'sphinx_gitref',
     'sphinx_rtd_theme',
 ]
 
 intersphinx_mapping = {
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 }
+
+gitref_relative_project_root = '..'
+gitref_remote_url = 'https://github.com/jdillard/sphinx-toctree-level-up'
+gitref_branch = (
+    os.environ.get('READTHEDOCS_GIT_COMMIT_HASH')
+    or os.environ.get('GITHUB_SHA')
+    or 'main'
+)
+gitref_hashing = False
+
 
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 if _level_up_demo:

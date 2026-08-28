@@ -2,10 +2,14 @@ Single-file builders
 ====================
 
 HTML resolves toctrees in place.
-LaTeX, ``singlehtml``, Texinfo, and man call ``inline_all_toctrees``, which pastes included documents **where the toctree sits**.
+LaTeX, ``singlehtml``, Texinfo, and man call
+:gitref:`inline_all_toctrees() <sphinx_toctree_level_up/_inline.py::inline_all_toctrees>`,
+which pastes
+included documents **where the toctree sits**.
 Without a patch, ``page1`` would still nest under "My header" in the PDF even after TOC promotion.
 
-The extension replaces that function. After inlining, ``replace_toctree_with_inlined``:
+The extension replaces that function. After inlining,
+:gitref:`replace_toctree_with_inlined() <sphinx_toctree_level_up/_inline.py::replace_toctree_with_inlined>`:
 
 * Walks up ``level-up`` containing sections.
 * Removes the empty toctree wrapper.

@@ -38,8 +38,8 @@ The TOC hierarchy is:
    sphinx-toctree-level-up
    ├── This page is the example
    ├── Usage
-   ├── How it works
    ├── Directives
+   ├── How it works
    ├── TOC promotion
    ├── Single-file builders
    └── Later sibling
@@ -49,8 +49,8 @@ The TOC hierarchy is:
    :level-up: 1
 
    usage
-   how-it-works
    directives
+   how-it-works
    toc-promotion
    single-file
 

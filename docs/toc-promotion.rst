@@ -1,20 +1,23 @@
 TOC promotion
 =============
 
-Sphinx's ``TocTreeCollector`` still builds ``env.tocs`` as usual: the
-:rst:dir:`toctree` is nested under the current section.
-Then a ``doctree-read`` handler runs
-:gitref:`promote_env_toc() <sphinx_toctree_level_up/_promote.py::promote_env_toc>`.
+:doc:`how-it-works` showed the result of that climb: in ``env.tocs``,
+**Installation** sits next to **First steps** instead of inside it.
 
-That walk is a **pending-bubble** over the TOC bullet list:
+:gitref:`promote_env_toc() <sphinx_toctree_level_up/_promote.py::promote_env_toc>`
+walks that tree as a pending-bubble:
 
-* Recurse into nested lists.
-* When a toctree has ``level-up > 0``, do not keep it at this level; put it in a pending list with a remaining count.
-* After finishing a section's children, pending items with remaining ``1`` become **siblings** of that section; remaining ``> 1`` bubble further up.
-* If promotion runs out of ancestor sections, it stops at the top and warns (``type='toc'``, ``subtype='level_up'``).
-* ``only`` nodes are not a section level: the wrapper is kept so ``html`` vs
-  ``latex`` filtering still works.
+* Recurse into nested lists first.
+* A toctree with ``level-up > 0`` is not kept at the current level. It is put
+  on a pending list with a remaining count.
+* After a section's children are finished, remaining ``1`` becomes a
+  **sibling** of that section. Remaining ``> 1`` keeps climbing.
+* If there are no more ancestor sections, the toctree stays at the top of
+  the document's TOC and Sphinx warns (``type='toc'``, ``subtype='level_up'``).
+* :rst:dir:`only` nodes are not a section level. The wrapper is kept so
+  ``html`` vs ``latex`` filtering still applies, and the remaining count is
+  not decremented.
 
-HTML sidebars and numbering then read the promoted ``env.tocs``. The in-page
-:rst:dir:`toctree` stays in the original doctree, which is why paragraph-before
-/ list / paragraph-after order is unchanged.
+When the builder later pastes included documents into one file, that same
+count has to move real headings, not only TOC bullets. That is
+:doc:`single-file`.

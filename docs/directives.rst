@@ -15,12 +15,11 @@ Directives
       Requesting more levels than there are ancestor sections promotes as far
       as possible and emits a ``[toc.level_up]`` warning.
 
-.. rst:directive:: toc-level-up
+.. rst:directive:: .. toc-level-up:: nonnegative integer
 
    Set the default :rst:dir:`:level-up: <toctree:level-up>` value for later
    :rst:dir:`toctree` directives in the current document.
 
-   The required argument is a nonnegative integer. The default remains in
-   effect until another ``toc-level-up`` directive replaces it. An explicit
-   :rst:dir:`:level-up: <toctree:level-up>` option takes precedence, including
-   ``:level-up: 0`` to opt out.
+   The default remains in effect until another ``toc-level-up`` directive
+   replaces it. An explicit :rst:dir:`:level-up: <toctree:level-up>` option
+   takes precedence, including ``:level-up: 0`` to opt out.

@@ -61,11 +61,12 @@ the directive. This distinction drives the rest of the implementation.
 Stage 1: teaching the parser the new option
 -------------------------------------------
 
-When Sphinx starts, :gitref:`setup()
+When Sphinx starts, the extension's :gitref:`setup()
 <sphinx_toctree_level_up/__init__.py::setup>` first checks whether the
 installed Sphinx already supports ``:level-up:``. If it does, the backport
 steps aside and asks the user to remove it. Otherwise, the extension replaces
-the registered ``toctree`` directive with a small :rst:dir:`toctree` subclass
+the registered ``toctree`` directive with a small :gitref:`TocTree
+<sphinx_toctree_level_up/__init__.py::TocTree>` subclass
 and registers the new :rst:dir:`toc-level-up` directive.
 
 The subclassed :rst:dir:`toctree` lets Sphinx do its normal parsing, then
@@ -78,22 +79,22 @@ later build stages. This is important because moving source content while it is
 being parsed would also move nearby paragraphs and would change where the
 HTML link list is rendered.
 
-Stage 2: adjusting Sphinx's navigation copy
--------------------------------------------
+Stage 2: adjusting the navigation tree
+--------------------------------------
 
 After parsing a document, Sphinx's built-in ``TocTreeCollector`` makes a
-smaller TOC representation and stores it in ``env.tocs``. That is the copy
-used to assemble global navigation and section numbering. At this point,
+smaller TOC representation and stores it in ``env.tocs``. Sidebars and
+section numbering read that tree, not the original document. At this point,
 Sphinx has followed its normal rule, so **Installation** is still nested below
 **First steps**.
 
 The extension waits until that collector is finished. Its ``doctree-read``
 handler runs at priority ``600``, after the collector's priority ``500``, and
 calls :gitref:`promote_env_toc() <sphinx_toctree_level_up/_promote.py::promote_env_toc>`.
-The handler finds the marked ``toctree`` in the navigation copy and bubbles it up by the
+The handler finds the marked ``toctree`` in ``env.tocs`` and bubbles it up by the
 requested number of section ancestors.
 
-For the example, the navigation copy changes from:
+For the example, that tree changes from:
 
 .. code-block:: text
 
@@ -111,10 +112,7 @@ to:
 
 The original document tree is deliberately untouched. Regular HTML can now
 read the promoted hierarchy for its sidebar while resolving the original
-node in place for the page's visible list.
-
-.. note:: The detailed bubbling rules, including requests that exceed the available
-   ancestors and :rst:dir:`only` handling, are covered in :doc:`toc-promotion`.
+node in place for the page's rendered list.
 
 Stage 3: handling builders that combine documents
 -------------------------------------------------
@@ -149,20 +147,22 @@ after the directive. The combined result is conceptually:
    └── Installation
 
 This placement gives **Installation** the heading level promised by the
-promoted navigation. See :doc:`single-file` for the builder-specific path.
+promoted navigation.
 
 The complete journey
 --------------------
 
-The same small ``level-up`` marker coordinates the build:
+The same small ``level-up`` marker is what those stages share:
 
 1. Parsing records the request but preserves the source layout.
-2. The ``doctree-read`` handler promotes the navigation copy used by sidebars
+2. The ``doctree-read`` handler promotes the ``env.tocs`` tree used by sidebars
    and numbering.
 3. Regular HTML leaves the in-page list where the author wrote it.
 4. Single-file builders move the inlined document content so its real heading
    structure matches the promoted TOC.
 
-The central idea behind that split is that promotion changes a document's
-place in the documentation hierarchy without pretending that the directive
-was written somewhere else in its source page.
+Promotion changes a document's place in the hierarchy without pretending
+the directive was written somewhere else on its source page. What follows
+is the walk behind step 2, then the walk behind step 4: how a toctree
+climbs ``env.tocs``, then how combined builders move the inlined content to
+match.

@@ -1,10 +1,6 @@
 sphinx-toctree-level-up
 =======================
 
-Standalone Sphinx extension that backports the
-:rst:dir:`:level-up: <toctree:level-up>` option for :rst:dir:`toctree` from
-`sphinx-doc/sphinx#8287 <https://github.com/sphinx-doc/sphinx/issues/8287>`_.
-
 A `Sphinx <http://sphinx-doc.org/>`_ extension that promotes pages listed in a
 :rst:dir:`toctree` so they sit higher in the TOC hierarchy than the section
 that contains the directive. It serves as a stop gap for the
